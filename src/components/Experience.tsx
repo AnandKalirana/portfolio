@@ -7,6 +7,17 @@ import { useRef } from "react";
 const experiences = [
   {
     number: "01",
+    org: "Shri Balaji Cotton Mills",
+    role: "Founder & Developer — E-Commerce Website",
+    period: "2026 — Present",
+    type: "In Development",
+    category: "E-Commerce",
+    description:
+      "Designing and developing an e-commerce website for Shri Balaji Cotton Mills, a textile company I own and run. Currently in development.",
+    side: "left",
+  },
+  {
+    number: "02",
     org: "Agastya International Foundation & JP Morgan Initiative",
     role: "Project Partner Intern (IoT & Systems)",
     period: "Dec 2025 — Feb 2026",
@@ -14,17 +25,6 @@ const experiences = [
     category: "Hardware & IoT",
     description:
       "Designed and developed a software-hardware integrated system to support recycling initiatives. Implemented sensor modules for automated material identification and built software for tracking and data logging.",
-    side: "left",
-  },
-  {
-    number: "02",
-    org: "JPMorgan Chase & Co.",
-    role: "Software Engineering Virtual Experience",
-    period: "2024",
-    type: "Virtual Experience",
-    category: "Software Engineering",
-    description:
-      "Completed software engineering simulation tasks, analyzing market data feeds, building responsive financial interfaces, and implementing real-world enterprise engineering practices.",
     side: "right",
   },
   {
