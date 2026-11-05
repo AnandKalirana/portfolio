@@ -107,11 +107,7 @@ export default function Hero() {
                 href="https://github.com/AnandKalirana"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2.5 px-6 py-3 text-sm font-semibold transition-all duration-200 group"
-                style={{
-                  backgroundColor: "var(--text-primary)",
-                  color: "var(--bg-primary)",
-                }}
+                className="btn-apple btn-apple-primary px-6 py-3 text-sm group"
               >
                 <GithubIcon size={15} />
                 View GitHub Profile
@@ -122,11 +118,7 @@ export default function Hero() {
               <a
                 href="/resume.pdf"
                 download
-                className="flex items-center gap-2.5 px-6 py-3 text-sm font-semibold border transition-all duration-200 group"
-                style={{
-                  borderColor: "var(--border)",
-                  color: "var(--text-primary)",
-                }}
+                className="btn-apple btn-apple-secondary px-6 py-3 text-sm group"
               >
                 <DownloadIcon size={15} />
                 Download Resume

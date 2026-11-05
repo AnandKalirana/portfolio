@@ -107,6 +107,88 @@
     transform: translateY(-4px);
   }
 
+  /* ---------- Apple-style controls ---------- */
+  .nav-icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 9999px;
+    color: var(--text-secondary);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .nav-icon-btn:hover {
+    color: var(--text-primary);
+    background-color: color-mix(in srgb, var(--text-primary) 8%, transparent);
+  }
+  .nav-icon-btn:focus-visible,
+  .btn-apple:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  .btn-apple {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.625rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    will-change: transform;
+    /* springy release, calm colour changes */
+    transition:
+      transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+      background-color 0.3s ease,
+      border-color 0.3s ease,
+      color 0.3s ease,
+      box-shadow 0.3s ease;
+  }
+  .btn-apple:hover {
+    transform: scale(1.035);
+  }
+  .btn-apple:active {
+    transform: scale(0.96);
+    transition-duration: 0.12s;
+  }
+  .btn-apple:disabled {
+    cursor: not-allowed;
+  }
+  .btn-apple:disabled:hover {
+    transform: none;
+  }
+
+  .btn-apple-primary {
+    background-color: var(--text-primary);
+    color: var(--bg-primary);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--bg-primary) 35%, transparent),
+      0 6px 16px -8px color-mix(in srgb, var(--text-primary) 55%, transparent);
+  }
+  .btn-apple-primary:hover {
+    background-color: color-mix(in srgb, var(--text-primary) 92%, var(--accent));
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--bg-primary) 35%, transparent),
+      0 12px 24px -10px color-mix(in srgb, var(--text-primary) 60%, transparent);
+  }
+
+  .btn-apple-secondary {
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+    background-color: color-mix(in srgb, var(--text-primary) 5%, transparent);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+  .btn-apple-secondary:hover {
+    background-color: color-mix(in srgb, var(--text-primary) 11%, transparent);
+    border-color: color-mix(in srgb, var(--text-primary) 22%, transparent);
+  }
+
   .link-arrow {
     display: inline-flex;
     align-items: center;

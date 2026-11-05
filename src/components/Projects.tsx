@@ -142,7 +142,7 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
             href={project.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2 text-xs font-semibold bg-white text-black hover:bg-gray-100 transition-colors"
+            className="btn-apple px-4 py-2 text-xs bg-white text-black hover:bg-gray-100"
             onClick={(e) => e.stopPropagation()}
           >
             <GithubIcon size={13} />
@@ -153,7 +153,7 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
               href={project.demo}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-4 py-2 text-xs font-semibold border border-white text-white hover:bg-white/10 transition-colors"
+              className="btn-apple px-4 py-2 text-xs border border-white text-white hover:bg-white/10"
               onClick={(e) => e.stopPropagation()}
             >
               <ExternalLinkIcon size={13} />
@@ -319,11 +319,7 @@ export default function Projects() {
               href="https://github.com/anandkalirana"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 text-xs font-semibold border px-4 py-2 transition-all duration-200 group"
-              style={{
-                borderColor: "var(--border)",
-                color: "var(--text-primary)",
-              }}
+              className="btn-apple btn-apple-secondary px-4 py-2 text-xs group"
             >
               View All Projects
               <ArrowRight
