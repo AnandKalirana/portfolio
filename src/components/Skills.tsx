@@ -1,54 +1,16 @@
+
 "use client";
 
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-
-const skillGroups = [
-  {
-    number: "01",
-    title: "IoT & Embedded Systems",
-    iconPath: "M2 6a1 1 0 011-1h18a1 1 0 011 1v12a1 1 0 01-1 1H3a1 1 0 01-1-1V6zm4 4h.01M6 14h.01M12 10h.01M12 14h.01M18 10h.01M18 14h.01M8 2v4M16 2v4M8 18v4M16 18v4",
-    skills: [
-      "Arduino / ESP32",
-      "Sensors & Actuators",
-      "MQTT / CoAP",
-      "Edge Computing",
-      "Real-time Data Processing",
-    ],
-  },
-  {
-    number: "02",
-    title: "Full-Stack Development",
-    iconPath: "M16 18l6-6-6-6M8 6L2 12l6 6",
-    skills: [
-      "Next.js / React",
-      "JavaScript / TypeScript",
-      "Node.js / Express",
-      "MySQL / PostgreSQL",
-      "Prisma ORM",
-      "Tailwind CSS",
-    ],
-  },
-  {
-    number: "03",
-    title: "Cybersecurity",
-    iconPath: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z",
-    skills: [
-      "Network Security",
-      "Threat Analysis",
-      "Vulnerability Assessment",
-      "Security Monitoring",
-      "Security Best Practices",
-    ],
-  },
-];
+import type { SkillGroup } from "@/lib/portfolio-data";
 
 function SkillCard({
   group,
   index,
 }: {
-  group: (typeof skillGroups)[0];
+  group: SkillGroup;
   index: number;
 }) {
   const ref = useRef(null);
@@ -128,7 +90,7 @@ function SkillCard({
   );
 }
 
-export default function Skills() {
+export default function Skills({ skillGroups }: { skillGroups: SkillGroup[] }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 

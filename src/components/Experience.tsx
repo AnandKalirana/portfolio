@@ -1,46 +1,12 @@
+
 "use client";
 
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
+import type { ExperienceItem } from "@/lib/portfolio-data";
 
-const experiences = [
-  {
-    number: "01",
-    org: "Shri Balaji Cotton Mills",
-    role: "Founder & Developer — E-Commerce Website",
-    period: "2026 — Present",
-    type: "In Development",
-    category: "E-Commerce",
-    description:
-      "Designing and developing an e-commerce website for Shri Balaji Cotton Mills, a textile company I own and run. Currently in development.",
-    side: "left",
-  },
-  {
-    number: "02",
-    org: "Agastya International Foundation & JP Morgan Initiative",
-    role: "Project Partner Intern (IoT & Systems)",
-    period: "Dec 2025 — Feb 2026",
-    type: "Internship",
-    category: "Hardware & IoT",
-    description:
-      "Designed and developed a software-hardware integrated system to support recycling initiatives. Implemented sensor modules for automated material identification and built software for tracking and data logging.",
-    side: "right",
-  },
-  {
-    number: "03",
-    org: "Threat Prism",
-    role: "Cybersecurity Intern",
-    period: "Jan 2025 — Apr 2025",
-    type: "Internship",
-    category: "Cybersecurity",
-    description:
-      "Developed security tools for phishing simulation, network scanning, and reconnaissance automation. Practiced threat identification, vulnerability assessment, and secure code analysis.",
-    side: "left",
-  },
-];
-
-function ExperienceCard({ exp }: { exp: (typeof experiences)[0] }) {
+function ExperienceCard({ exp }: { exp: ExperienceItem }) {
   return (
     <div
       className="border p-5"
@@ -92,7 +58,7 @@ function ExperienceCard({ exp }: { exp: (typeof experiences)[0] }) {
   );
 }
 
-function DesktopEntry({ exp, index }: { exp: (typeof experiences)[0]; index: number }) {
+function DesktopEntry({ exp, index }: { exp: ExperienceItem; index: number }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-40px" });
   const isLeft = exp.side === "left";
@@ -148,7 +114,7 @@ function DesktopEntry({ exp, index }: { exp: (typeof experiences)[0]; index: num
   );
 }
 
-function MobileEntry({ exp, index }: { exp: (typeof experiences)[0]; index: number }) {
+function MobileEntry({ exp, index }: { exp: ExperienceItem; index: number }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-40px" });
 
@@ -181,7 +147,7 @@ function MobileEntry({ exp, index }: { exp: (typeof experiences)[0]; index: numb
   );
 }
 
-export default function Experience() {
+export default function Experience({ experiences }: { experiences: ExperienceItem[] }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 

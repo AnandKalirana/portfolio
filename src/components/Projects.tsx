@@ -1,3 +1,4 @@
+
 "use client";
 
 import { motion } from "framer-motion";
@@ -6,38 +7,21 @@ import { useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import { GithubIcon, ExternalLinkIcon } from "@/components/Icons";
 
-const projects = [
-  {
-    number: "01",
-    category: "Full-Stack System",
-    name: "RentLedger",
-    description:
-      "A multi-tenant rental management platform designed to simplify landlord and tenant operations. Features tenant-level data isolation, JWT authentication, rent payment tracking, proof uploads, and automated notifications via WhatsApp Cloud API.",
-    tech: ["Next.js", "TypeScript", "Node.js", "Express.js", "PostgreSQL", "Prisma"],
-    github: "https://github.com/AnandKalirana",
-    demo: null,
-    image: "/projects/rentledger.webp" as string | null,
-    screenshotBg: "#0F1923",
-    accentColor: "#C9822B",
-    tags: ["Multi-Tenant Isolation", "Payment Workflows", "JWT Auth", "WhatsApp API"],
-  },
-  {
-    number: "02",
-    category: "Full-Stack Application",
-    name: "Personal Book Tracker",
-    description:
-      "A personal library and reading management platform that helps users catalog books, record reading milestones, and track history. Features full CRUD workflows, Google Books API integration, ratings, and deployed via Railway.",
-    tech: ["React.js", "Node.js", "Express.js", "MySQL", "Google Books API"],
-    github: "https://github.com/AnandKalirana",
-    demo: null,
-    image: "/projects/book-tracker.webp" as string | null,
-    screenshotBg: "#0D1B2A",
-    accentColor: "#C9822B",
-    tags: ["Reading Status", "Google Books API", "CRUD Workflows", "Railway"],
-  },
-];
+type Project = {
+  number: string;
+  category: string;
+  name: string;
+  description: string;
+  tech: string[];
+  github: string;
+  demo: string | null;
+  image: string | null;
+  screenshotBg: string;
+  accentColor: string;
+  tags: string[];
+};
 
-function ProjectCard({ project, index }: { project: typeof projects[0]; index: number }) {
+function ProjectCard({ project, index }: { project: Project; index: number }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
 
@@ -68,61 +52,78 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
           />
         ) : (
           <>
-          {/* Mockup grid overlay */}
-          <div
-            className="absolute inset-0 opacity-10"
-            style={{
-              backgroundImage: `linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)`,
-              backgroundSize: "30px 30px",
-            }}
-          />
-
-          {/* Browser chrome mockup */}
-          <div className="absolute inset-4 border border-white/10 rounded-sm overflow-hidden">
+            {/* Mockup grid overlay */}
             <div
-              className="h-7 flex items-center gap-1.5 px-3 border-b border-white/10"
-              style={{ backgroundColor: "rgba(255,255,255,0.05)" }}
-            >
-              <div className="w-2 h-2 rounded-full bg-red-400/60" />
-              <div className="w-2 h-2 rounded-full bg-yellow-400/60" />
-              <div className="w-2 h-2 rounded-full bg-green-400/60" />
-              <div className="flex-1 mx-3 h-3 rounded-sm" style={{ backgroundColor: "rgba(255,255,255,0.05)" }} />
-            </div>
-          
-            {/* Mockup content */}
-            <div className="p-4 h-full" style={{ backgroundColor: "rgba(255,255,255,0.02)" }}>
-              {/* Sidebar + content layout */}
-              <div className="flex gap-3 h-full">
-                <div className="w-1/4 space-y-2">
-                  {[1, 2, 3, 4, 5].map((i) => {
-                    const widths = ["80%", "65%", "75%", "55%", "70%"];
-                    return (
-                      <div
-                        key={i}
-                        className="h-2 rounded-sm"
-                        style={{
-                          backgroundColor:
-                            i === 1
-                              ? project.accentColor + "80"
-                              : "rgba(255,255,255,0.08)",
-                          width: widths[i - 1],
-                        }}
-                      />
-                    );
-                  })}
-                </div>
-                <div className="flex-1 space-y-3">
-                  <div className="grid grid-cols-3 gap-2">
-                    {[1,2,3].map(i => (
-                      <div key={i} className="h-10 border border-white/5 rounded-sm" style={{ backgroundColor: "rgba(255,255,255,0.03)" }} />
-                    ))}
+              className="absolute inset-0 opacity-10"
+              style={{
+                backgroundImage: `linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)`,
+                backgroundSize: "30px 30px",
+              }}
+            />
+
+            {/* Browser chrome mockup */}
+            <div className="absolute inset-4 border border-white/10 rounded-sm overflow-hidden">
+              <div
+                className="h-7 flex items-center gap-1.5 px-3 border-b border-white/10"
+                style={{ backgroundColor: "rgba(255,255,255,0.05)" }}
+              >
+                <div className="w-2 h-2 rounded-full bg-red-400/60" />
+                <div className="w-2 h-2 rounded-full bg-yellow-400/60" />
+                <div className="w-2 h-2 rounded-full bg-green-400/60" />
+                <div
+                  className="flex-1 mx-3 h-3 rounded-sm"
+                  style={{ backgroundColor: "rgba(255,255,255,0.05)" }}
+                />
+              </div>
+
+              {/* Mockup content */}
+              <div
+                className="p-4 h-full"
+                style={{ backgroundColor: "rgba(255,255,255,0.02)" }}
+              >
+                {/* Sidebar + content layout */}
+                <div className="flex gap-3 h-full">
+                  <div className="w-1/4 space-y-2">
+                    {[1, 2, 3, 4, 5].map((i) => {
+                      const widths = ["80%", "65%", "75%", "55%", "70%"];
+                      return (
+                        <div
+                          key={i}
+                          className="h-2 rounded-sm"
+                          style={{
+                            backgroundColor:
+                              i === 1
+                                ? project.accentColor + "80"
+                                : "rgba(255,255,255,0.08)",
+                            width: widths[i - 1],
+                          }}
+                        />
+                      );
+                    })}
                   </div>
-                  <div className="h-2 w-3/4 rounded-sm" style={{ backgroundColor: "rgba(255,255,255,0.08)" }} />
-                  <div className="h-2 w-1/2 rounded-sm" style={{ backgroundColor: "rgba(255,255,255,0.05)" }} />
+
+                  <div className="flex-1 space-y-3">
+                    <div className="grid grid-cols-3 gap-2">
+                      {[1, 2, 3].map((i) => (
+                        <div
+                          key={i}
+                          className="h-10 border border-white/5 rounded-sm"
+                          style={{ backgroundColor: "rgba(255,255,255,0.03)" }}
+                        />
+                      ))}
+                    </div>
+                    <div
+                      className="h-2 w-3/4 rounded-sm"
+                      style={{ backgroundColor: "rgba(255,255,255,0.08)" }}
+                    />
+                    <div
+                      className="h-2 w-1/2 rounded-sm"
+                      style={{ backgroundColor: "rgba(255,255,255,0.05)" }}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
           </>
         )}
 
@@ -148,6 +149,7 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
             <GithubIcon size={13} />
             GitHub
           </a>
+
           {project.demo && (
             <a
               href={project.demo}
@@ -167,9 +169,13 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
       <div className="p-6">
         <div className="flex items-start justify-between gap-4 mb-3">
           <div>
-            <div className="editorial-label mb-1" style={{ color: "var(--text-secondary)" }}>
+            <div
+              className="editorial-label mb-1"
+              style={{ color: "var(--text-secondary)" }}
+            >
               {project.category}
             </div>
+
             <h3
               className="text-xl font-bold tracking-tight"
               style={{ color: "var(--text-primary)" }}
@@ -177,6 +183,7 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
               {project.name}
             </h3>
           </div>
+
           <span
             className="text-2xl font-black opacity-10 leading-none flex-shrink-0"
             style={{ color: "var(--text-primary)" }}
@@ -215,7 +222,10 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
             <span
               key={t}
               className="text-xs px-2 py-0.5 border"
-              style={{ borderColor: "var(--border)", color: "var(--text-secondary)" }}
+              style={{
+                borderColor: "var(--border)",
+                color: "var(--text-secondary)",
+              }}
             >
               {t}
             </span>
@@ -223,7 +233,10 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
         </div>
 
         {/* Links */}
-        <div className="flex items-center gap-5 pt-4 border-t" style={{ borderColor: "var(--border)" }}>
+        <div
+          className="flex items-center gap-5 pt-4 border-t"
+          style={{ borderColor: "var(--border)" }}
+        >
           <a
             href={project.github}
             target="_blank"
@@ -238,6 +251,7 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
               className="transition-transform duration-200 group-hover/link:translate-x-1"
             />
           </a>
+
           {project.demo && (
             <a
               href={project.demo}
@@ -260,7 +274,7 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
   );
 }
 
-export default function Projects() {
+export default function Projects({ projects }: { projects: Project[] }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
@@ -271,11 +285,17 @@ export default function Projects() {
       style={{ backgroundColor: "var(--bg-primary)" }}
     >
       {/* Top border */}
-      <div className="absolute top-0 left-0 right-0 h-px" style={{ backgroundColor: "var(--border)" }} />
+      <div
+        className="absolute top-0 left-0 right-0 h-px"
+        style={{ backgroundColor: "var(--border)" }}
+      />
 
       <div className="max-w-7xl mx-auto px-6 lg:px-10">
         {/* Section header */}
-        <div ref={ref} className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-16">
+        <div
+          ref={ref}
+          className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-16"
+        >
           <div>
             <motion.div
               initial={{ opacity: 0, x: -10 }}
@@ -284,7 +304,10 @@ export default function Projects() {
               className="flex items-center gap-3 mb-6"
             >
               <span className="section-number">03</span>
-              <div className="w-8 h-px" style={{ backgroundColor: "var(--border)" }} />
+              <div
+                className="w-8 h-px"
+                style={{ backgroundColor: "var(--border)" }}
+              />
               <span className="editorial-label">Featured Projects</span>
             </motion.div>
 
@@ -296,7 +319,10 @@ export default function Projects() {
               style={{ color: "var(--text-primary)" }}
             >
               Selected work.{" "}
-              <span className="font-serif-italic font-normal" style={{ color: "var(--accent)" }}>
+              <span
+                className="font-serif-italic font-normal"
+                style={{ color: "var(--accent)" }}
+              >
                 Real-world thinking.
               </span>
             </motion.h2>
@@ -315,6 +341,7 @@ export default function Projects() {
               A selection of projects where I applied engineering thinking to
               solve practical problems.
             </p>
+
             <a
               href="https://github.com/anandkalirana"
               target="_blank"
