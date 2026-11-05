@@ -47,7 +47,7 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
       initial={{ opacity: 0, y: 40 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.6, delay: index * 0.15, ease: "easeOut" }}
-      className="group relative border overflow-hidden transition-all duration-300 hover:border-opacity-60"
+      className="card-lift group relative border overflow-hidden"
       style={{
         borderColor: "var(--border)",
         backgroundColor: "var(--elevated)",
@@ -64,7 +64,7 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
             src={project.image}
             alt={`${project.name} preview`}
             loading="lazy"
-            className="absolute inset-0 w-full h-full object-cover object-top"
+            className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover:scale-[1.03]"
           />
         ) : (
           <>

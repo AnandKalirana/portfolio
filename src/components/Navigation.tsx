@@ -92,19 +92,23 @@ export default function Navigation() {
         initial={{ y: -24, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ ...spring, delay: 0.05 }}
-        className={`fixed top-0 left-0 right-0 z-50 border-b transition-[padding,background-color,border-color,backdrop-filter] duration-500 ease-[cubic-bezier(0.25,0.1,0.25,1)] ${
-          scrolled ? "py-2.5" : "py-5"
+        className={`fixed inset-x-0 z-50 flex justify-center px-3 pointer-events-none transition-[top] duration-500 ease-[cubic-bezier(0.25,0.1,0.25,1)] ${
+          scrolled ? "top-3" : "top-4"
         }`}
-        style={{
-          backgroundColor: scrolled
-            ? "color-mix(in srgb, var(--bg-primary) 68%, transparent)"
-            : "transparent",
-          borderColor: scrolled ? "var(--border)" : "transparent",
-          backdropFilter: scrolled ? "saturate(180%) blur(22px)" : "saturate(100%) blur(0px)",
-          WebkitBackdropFilter: scrolled ? "saturate(180%) blur(22px)" : "saturate(100%) blur(0px)",
-        }}
       >
-        <div className="max-w-7xl mx-auto px-6 lg:px-10 flex items-center justify-between">
+        {/* Floating glass capsule */}
+        <div
+          className="pointer-events-auto w-full md:w-auto flex items-center justify-between md:justify-start gap-1 rounded-full border p-1.5 transition-[background-color,box-shadow] duration-500 ease-[cubic-bezier(0.25,0.1,0.25,1)]"
+          style={{
+            backgroundColor: `color-mix(in srgb, var(--bg-primary) ${scrolled ? 74 : 52}%, transparent)`,
+            borderColor: "var(--border)",
+            boxShadow: scrolled
+              ? "0 10px 32px -14px rgba(0,0,0,0.5)"
+              : "0 0 0 0 rgba(0,0,0,0)",
+            backdropFilter: "saturate(180%) blur(22px)",
+            WebkitBackdropFilter: "saturate(180%) blur(22px)",
+          }}
+        >
           {/* Logo */}
           <motion.a
             href="#"
@@ -114,10 +118,10 @@ export default function Navigation() {
             }}
             whileTap={{ scale: 0.96 }}
             transition={spring}
-            className="flex items-center gap-3 group rounded-lg outline-offset-4"
+            className="flex items-center gap-2.5 group rounded-full pr-3 outline-offset-2"
           >
             <div
-              className="w-8 h-8 flex items-center justify-center border text-xs font-bold tracking-widest transition-colors duration-300 group-hover:bg-[color-mix(in_srgb,var(--accent)_14%,transparent)]"
+              className="w-8 h-8 flex items-center justify-center rounded-full border text-[10px] font-bold tracking-wider transition-colors duration-300 group-hover:bg-[color-mix(in_srgb,var(--accent)_14%,transparent)]"
               style={{
                 borderColor: "var(--accent)",
                 color: "var(--accent)",
@@ -134,8 +138,14 @@ export default function Navigation() {
             </span>
           </motion.a>
 
-          {/* Desktop nav */}
-          <div className="hidden md:flex items-center gap-1" onMouseLeave={() => setHovered(null)}>
+          {/* Divider */}
+          <div
+            className="hidden md:block w-px h-5 mr-1"
+            style={{ backgroundColor: "var(--border)" }}
+          />
+
+          {/* Desktop links */}
+          <div className="hidden md:flex items-center gap-0.5" onMouseLeave={() => setHovered(null)}>
             {navLinks.map((link) => {
               const id = link.href.slice(1);
               const active = activeSection === id;
@@ -183,11 +193,11 @@ export default function Navigation() {
                 </a>
               );
             })}
-            {renderThemeToggle("ml-2")}
           </div>
+          <div className="hidden md:block">{renderThemeToggle("ml-1")}</div>
 
           {/* Mobile controls */}
-          <div className="flex md:hidden items-center gap-1">
+          <div className="flex md:hidden items-center gap-0.5">
             {renderThemeToggle()}
             <motion.button
               onClick={() => setMobileOpen((o) => !o)}
@@ -241,7 +251,7 @@ export default function Navigation() {
                 backdropFilter: "saturate(180%) blur(28px)",
                 WebkitBackdropFilter: "saturate(180%) blur(28px)",
               }}
-              className="fixed top-[4.25rem] left-3 right-3 z-50 rounded-2xl border p-2 shadow-2xl shadow-black/30"
+              className="fixed top-[4.75rem] left-3 right-3 z-50 rounded-3xl border p-2 shadow-2xl shadow-black/30"
             >
               {navLinks.map((link, i) => {
                 const active = activeSection === link.href.slice(1);
