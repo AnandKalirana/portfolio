@@ -30,7 +30,7 @@ const projects = [
     tech: ["React.js", "Node.js", "Express.js", "MySQL", "Google Books API"],
     github: "https://github.com/AnandKalirana",
     demo: null,
-    image: null as string | null,
+    image: "/projects/book-tracker.webp" as string | null,
     screenshotBg: "#0D1B2A",
     accentColor: "#C9822B",
     tags: ["Reading Status", "Google Books API", "CRUD Workflows", "Railway"],
