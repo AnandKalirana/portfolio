@@ -53,15 +53,37 @@ export default function Contact() {
       return;
     }
 
+    // Honeypot: real visitors never fill this hidden field. Pretend success for bots.
+    if (botcheck) {
+      setFormState("success");
+      return;
+    }
+
+    const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
+    if (!accessKey) {
+      console.error("NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY is not set");
+      setFormState("error");
+      return;
+    }
+
     setFormState("loading");
     try {
-      const res = await fetch("/api/contact", {
+      // Web3Forms free plan only accepts submissions sent from the browser.
+      // The access key is designed to be public and only routes mail to my inbox.
+      const res = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...formData, botcheck }),
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          access_key: accessKey,
+          from_name: "Portfolio Contact Form",
+          subject: `[Portfolio] ${formData.subject.trim()}`,
+          name: formData.name.trim(),
+          email: formData.email.trim(), // visitor's address, so replying goes straight to them
+          message: formData.message.trim(),
+        }),
       });
       const data = await res.json().catch(() => null);
-      if (!res.ok || !data?.ok) throw new Error("send failed");
+      if (!res.ok || !data?.success) throw new Error("send failed");
       setFormState("success");
       setFormData({ name: "", email: "", subject: "", message: "" });
     } catch {
