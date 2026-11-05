@@ -1,7 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import {
+  motion,
+  useMotionValue,
+  useReducedMotion,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { GithubIcon, DownloadIcon } from "@/components/Icons";
 
@@ -13,6 +19,45 @@ const fadeUp = {
     transition: { duration: 0.6, delay: i * 0.1, ease: "easeOut" as const },
   }),
 };
+
+const MAX_TILT = 5; // degrees
+
+/**
+ * Leans its children toward the mouse pointer (max ~5deg) and springs back
+ * on leave. Mouse only: touch and reduced-motion users get a static frame.
+ */
+function PortraitTilt({ children }: { children: React.ReactNode }) {
+  const reduceMotion = useReducedMotion();
+  const px = useMotionValue(0);
+  const py = useMotionValue(0);
+  const spring = { stiffness: 170, damping: 20, mass: 0.6 };
+  const sx = useSpring(px, spring);
+  const sy = useSpring(py, spring);
+  const rotateY = useTransform(sx, (v) => v * MAX_TILT);
+  const rotateX = useTransform(sy, (v) => -v * MAX_TILT);
+
+  const onMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (reduceMotion || e.pointerType !== "mouse") return;
+    const r = e.currentTarget.getBoundingClientRect();
+    px.set(((e.clientX - r.left) / r.width - 0.5) * 2);
+    py.set(((e.clientY - r.top) / r.height - 0.5) * 2);
+  };
+  const reset = () => {
+    px.set(0);
+    py.set(0);
+  };
+
+  return (
+    <div
+      className="w-full"
+      style={{ perspective: 1200 }}
+      onPointerMove={onMove}
+      onPointerLeave={reset}
+    >
+      <motion.div style={{ rotateX, rotateY }}>{children}</motion.div>
+    </div>
+  );
+}
 
 export default function Hero() {
   const [imgSrc, setImgSrc] = useState<string | null>("/portrait.jpg");
@@ -151,6 +196,7 @@ export default function Hero() {
             className="relative flex flex-col items-center w-full max-w-sm mx-auto lg:max-w-none"
           >
             {/* Portrait area */}
+            <PortraitTilt>
             <div className="relative w-full">
               {/* Main portrait frame */}
               <div
@@ -249,6 +295,7 @@ export default function Hero() {
                 </div>
               </motion.div>
             </div>
+            </PortraitTilt>
           </motion.div>
         </div>
       </div>

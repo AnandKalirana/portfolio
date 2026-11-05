@@ -189,6 +189,22 @@
     border-color: color-mix(in srgb, var(--text-primary) 22%, transparent);
   }
 
+  /* Project card lift: uses the `translate` property so it never fights
+     framer-motion's inline `transform` (scroll-in animation). */
+  .card-lift {
+    transition:
+      translate 0.55s cubic-bezier(0.34, 1.56, 0.64, 1),
+      box-shadow 0.4s ease,
+      border-color 0.3s ease;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .card-lift:hover {
+      translate: 0 -6px;
+      border-color: color-mix(in srgb, var(--text-primary) 20%, var(--border));
+      box-shadow: 0 28px 48px -28px color-mix(in srgb, #000 55%, transparent);
+    }
+  }
+
   .link-arrow {
     display: inline-flex;
     align-items: center;
