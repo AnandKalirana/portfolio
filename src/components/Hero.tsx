@@ -1,18 +1,22 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { Github, Download, ChevronDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
+import { GithubIcon, DownloadIcon } from "@/components/Icons";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
   visible: (i = 0) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, delay: i * 0.1, ease: [0.25, 0.46, 0.45, 0.94] },
+    transition: { duration: 0.6, delay: i * 0.1, ease: "easeOut" as const },
   }),
 };
 
 export default function Hero() {
+  const [imgSrc, setImgSrc] = useState<string | null>("/portrait.jpg");
+
   return (
     <section
       id="hero"
@@ -100,7 +104,7 @@ export default function Hero() {
               className="flex flex-wrap gap-4"
             >
               <a
-                href="https://github.com/anandkalirana"
+                href="https://github.com/AnandKalirana"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2.5 px-6 py-3 text-sm font-semibold transition-all duration-200 group"
@@ -109,7 +113,7 @@ export default function Hero() {
                   color: "var(--bg-primary)",
                 }}
               >
-                <Github size={15} strokeWidth={2} />
+                <GithubIcon size={15} />
                 View GitHub Profile
                 <span className="transition-transform duration-200 group-hover:translate-x-1">
                   →
@@ -124,7 +128,7 @@ export default function Hero() {
                   color: "var(--text-primary)",
                 }}
               >
-                <Download size={15} strokeWidth={1.5} />
+                <DownloadIcon size={15} />
                 Download Resume
               </a>
             </motion.div>
@@ -147,11 +151,11 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* Right side — Portrait placeholder + editorial elements */}
+          {/* Right side — Portrait frame + editorial elements */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+            transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
             className="relative hidden lg:flex flex-col items-center"
           >
             {/* Portrait area */}
@@ -164,27 +168,40 @@ export default function Hero() {
                   border: "1px solid var(--border)",
                 }}
               >
-                {/* Typography composition for portrait placeholder */}
-                <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <div
-                    className="text-[10rem] font-black leading-none select-none opacity-5"
-                    style={{ color: "var(--text-primary)" }}
-                  >
-                    AK
-                  </div>
-                </div>
-                
-                {/* Editorial overlay label */}
-                <div
-                  className="absolute bottom-0 left-0 right-0 p-5"
-                  style={{
-                    background: "linear-gradient(to top, var(--bg-primary) 0%, transparent 100%)",
-                  }}
-                >
-                  <div className="editorial-label text-center">
-                    Portrait — Add your photo here
-                  </div>
-                </div>
+                {imgSrc ? (
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img
+                    src={imgSrc}
+                    alt="Anand Kalirana"
+                    className="w-full h-full object-cover grayscale contrast-125 brightness-95"
+                    onError={() => setImgSrc(null)}
+                  />
+                ) : (
+                  <>
+                    {/* Typography composition for portrait placeholder */}
+                    <div className="absolute inset-0 flex flex-col items-center justify-center">
+                      <div
+                        className="text-[9rem] font-black leading-none select-none opacity-5 tracking-tighter"
+                        style={{ color: "var(--text-primary)" }}
+                      >
+                        AK
+                      </div>
+                    </div>
+
+                    {/* Editorial overlay label */}
+                    <div
+                      className="absolute bottom-0 left-0 right-0 p-5"
+                      style={{
+                        background:
+                          "linear-gradient(to top, var(--bg-primary) 0%, transparent 100%)",
+                      }}
+                    >
+                      <div className="editorial-label text-center text-xs">
+                        Portrait — Place portrait.jpg in public/
+                      </div>
+                    </div>
+                  </>
+                )}
 
                 {/* Corner marks */}
                 <div className="absolute top-3 left-3 w-4 h-4 border-t border-l" style={{ borderColor: "var(--accent)" }} />

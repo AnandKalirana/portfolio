@@ -5,10 +5,12 @@ import { useInView } from "framer-motion";
 import { useRef } from "react";
 
 const highlights = [
-  { label: "Focus Area", value: "IoT & Full-Stack" },
-  { label: "Education", value: "B.Tech IoT, 3rd Year" },
-  { label: "Location", value: "India" },
-  { label: "Status", value: "Seeking Internships" },
+  { label: "Degree", value: "B.Tech in Internet of Things" },
+  { label: "Institution", value: "Thakur College of Engg." },
+  { label: "Location", value: "Mumbai, India" },
+  { label: "Certification", value: "IIT Bombay (Python, 2025)" },
+  { label: "Focus", value: "Hardware, Web & Security" },
+  { label: "Status", value: "Open to Internships" },
 ];
 
 export default function About() {
@@ -171,3 +173,4 @@ export default function About() {
     </section>
   );
 }
+

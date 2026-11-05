@@ -3,34 +3,35 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { Github, ExternalLink, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import { GithubIcon, ExternalLinkIcon } from "@/components/Icons";
 
 const projects = [
   {
     number: "01",
-    category: "Full-Stack Platform",
+    category: "Full-Stack System",
     name: "RentLedger",
     description:
-      "A full-stack rental management platform designed to simplify landlord and tenant operations. Features role-based access control, rent tracking, payment management, and automated reminders.",
-    tech: ["Next.js", "Express.js", "Prisma", "PostgreSQL", "Supabase"],
-    github: "https://github.com/anandkalirana/rentledger",
+      "A multi-tenant rental management platform designed to simplify landlord and tenant operations. Features tenant-level data isolation, JWT authentication, rent payment tracking, proof uploads, and automated notifications via WhatsApp Cloud API.",
+    tech: ["Next.js", "TypeScript", "Node.js", "Express.js", "PostgreSQL", "Prisma"],
+    github: "https://github.com/AnandKalirana",
     demo: null,
     screenshotBg: "#0F1923",
     accentColor: "#C9822B",
-    tags: ["Role-Based Access", "Rent Tracking", "Payment Management"],
+    tags: ["Multi-Tenant Isolation", "Payment Workflows", "JWT Auth", "WhatsApp API"],
   },
   {
     number: "02",
-    category: "Personal Productivity",
+    category: "Full-Stack Application",
     name: "Personal Book Tracker",
     description:
-      "A personal library management application that helps users organize books and track their reading journey. Features full CRUD operations, search, filtering, wishlist management, and reading status tracking.",
-    tech: ["Next.js", "React", "Node.js", "Express.js", "MySQL"],
-    github: "https://github.com/anandkalirana/book-tracker",
+      "A personal library and reading management platform that helps users catalog books, record reading milestones, and track history. Features full CRUD workflows, Google Books API integration, ratings, and deployed via Railway.",
+    tech: ["React.js", "Node.js", "Express.js", "MySQL", "Google Books API"],
+    github: "https://github.com/AnandKalirana",
     demo: null,
     screenshotBg: "#0D1B2A",
     accentColor: "#C9822B",
-    tags: ["Reading Status", "Wishlist", "Search & Filter"],
+    tags: ["Reading Status", "Google Books API", "CRUD Workflows", "Railway"],
   },
 ];
 
@@ -43,7 +44,7 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
       ref={ref}
       initial={{ opacity: 0, y: 40 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay: index * 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
+      transition={{ duration: 0.6, delay: index * 0.15, ease: "easeOut" }}
       className="group relative border overflow-hidden transition-all duration-300 hover:border-opacity-60"
       style={{
         borderColor: "var(--border)",
@@ -81,16 +82,22 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
             {/* Sidebar + content layout */}
             <div className="flex gap-3 h-full">
               <div className="w-1/4 space-y-2">
-                {[1,2,3,4,5].map(i => (
-                  <div
-                    key={i}
-                    className="h-2 rounded-sm"
-                    style={{
-                      backgroundColor: i === 1 ? project.accentColor + "80" : "rgba(255,255,255,0.08)",
-                      width: i === 1 ? "80%" : `${60 + Math.random() * 30}%`,
-                    }}
-                  />
-                ))}
+                {[1, 2, 3, 4, 5].map((i) => {
+                  const widths = ["80%", "65%", "75%", "55%", "70%"];
+                  return (
+                    <div
+                      key={i}
+                      className="h-2 rounded-sm"
+                      style={{
+                        backgroundColor:
+                          i === 1
+                            ? project.accentColor + "80"
+                            : "rgba(255,255,255,0.08)",
+                        width: widths[i - 1],
+                      }}
+                    />
+                  );
+                })}
               </div>
               <div className="flex-1 space-y-3">
                 <div className="grid grid-cols-3 gap-2">
@@ -124,7 +131,7 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
             className="flex items-center gap-2 px-4 py-2 text-xs font-semibold bg-white text-black hover:bg-gray-100 transition-colors"
             onClick={(e) => e.stopPropagation()}
           >
-            <Github size={13} />
+            <GithubIcon size={13} />
             GitHub
           </a>
           {project.demo && (
@@ -135,7 +142,7 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
               className="flex items-center gap-2 px-4 py-2 text-xs font-semibold border border-white text-white hover:bg-white/10 transition-colors"
               onClick={(e) => e.stopPropagation()}
             >
-              <ExternalLink size={13} />
+              <ExternalLinkIcon size={13} />
               Live Demo
             </a>
           )}
@@ -210,7 +217,7 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
             className="flex items-center gap-2 text-xs font-semibold transition-all duration-200 group/link"
             style={{ color: "var(--text-primary)" }}
           >
-            <Github size={13} strokeWidth={1.5} />
+            <GithubIcon size={13} />
             <span>View on GitHub</span>
             <ArrowRight
               size={12}
@@ -225,7 +232,7 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
               className="flex items-center gap-2 text-xs font-semibold transition-all duration-200 group/link"
               style={{ color: "var(--text-secondary)" }}
             >
-              <ExternalLink size={13} strokeWidth={1.5} />
+              <ExternalLinkIcon size={13} />
               <span>Live Demo</span>
               <ArrowRight
                 size={12}
