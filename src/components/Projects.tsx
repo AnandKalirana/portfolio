@@ -16,7 +16,7 @@ const projects = [
     tech: ["Next.js", "TypeScript", "Node.js", "Express.js", "PostgreSQL", "Prisma"],
     github: "https://github.com/AnandKalirana",
     demo: null,
-    image: null as string | null,
+    image: "/projects/rentledger.webp" as string | null,
     screenshotBg: "#0F1923",
     accentColor: "#C9822B",
     tags: ["Multi-Tenant Isolation", "Payment Workflows", "JWT Auth", "WhatsApp API"],
@@ -127,7 +127,7 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
         )}
 
         {/* Category label overlay */}
-        <div className="absolute top-4 left-4">
+        <div className={`absolute top-4 left-4 ${project.image ? "hidden" : ""}`}>
           <span
             className="text-xs font-bold tracking-widest uppercase px-2 py-1"
             style={{ backgroundColor: project.accentColor, color: "white" }}
