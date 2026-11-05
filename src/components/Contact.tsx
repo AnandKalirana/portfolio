@@ -312,11 +312,7 @@ export default function Contact() {
                 <button
                   type="submit"
                   disabled={formState === "loading"}
-                  className="flex items-center gap-3 px-6 py-3 text-sm font-semibold transition-all duration-200 group disabled:opacity-60 disabled:cursor-not-allowed"
-                  style={{
-                    backgroundColor: "var(--text-primary)",
-                    color: "var(--bg-primary)",
-                  }}
+                  className="btn-apple btn-apple-primary px-6 py-3 text-sm group disabled:opacity-60"
                 >
                   {formState === "loading" ? (
                     <>
