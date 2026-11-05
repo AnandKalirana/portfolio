@@ -19,6 +19,7 @@ export default function Contact() {
     subject: "",
     message: "",
   });
+  const [botcheck, setBotcheck] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const validate = () => {
@@ -54,11 +55,13 @@ export default function Contact() {
 
     setFormState("loading");
     try {
-      // Mailto fallback — replace with actual backend/email service endpoint
-      const mailtoLink = `mailto:anandkalirana@gmail.com?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(
-        `From: ${formData.name} <${formData.email}>\n\n${formData.message}`
-      )}`;
-      window.location.href = mailtoLink;
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...formData, botcheck }),
+      });
+      const data = await res.json().catch(() => null);
+      if (!res.ok || !data?.ok) throw new Error("send failed");
       setFormState("success");
       setFormData({ name: "", email: "", subject: "", message: "" });
     } catch {
@@ -70,8 +73,8 @@ export default function Contact() {
     {
       icon: <MailIcon size={15} />,
       label: "Email",
-      value: "anandkalirana@gmail.com",
-      href: "mailto:anandkalirana@gmail.com",
+      value: "anandkaliranajat05@gmail.com",
+      href: "mailto:anandkaliranajat05@gmail.com",
     },
     {
       icon: <PhoneIcon size={15} />,
@@ -142,7 +145,7 @@ export default function Contact() {
           >
             Have an idea?{" "}
             <span className="font-serif-italic font-normal" style={{ color: "var(--accent)" }}>
-              Let's connect.
+              Let&apos;s connect.
             </span>
           </motion.h2>
 
@@ -153,7 +156,7 @@ export default function Contact() {
             className="text-sm leading-relaxed max-w-lg"
             style={{ color: "var(--text-secondary)" }}
           >
-            I'm always open to discussing interesting projects, internship
+            I&apos;m always open to discussing interesting projects, internship
             opportunities, collaborations, and engineering challenges.
           </motion.p>
         </div>
@@ -211,7 +214,7 @@ export default function Contact() {
                   Message Sent!
                 </h3>
                 <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
-                  Your email client has opened with the message. I'll get back to you as soon as possible.
+                  Thanks for reaching out. Your message is in my inbox and I&apos;ll get back to you as soon as possible.
                 </p>
                 <button
                   onClick={() => setFormState("idle")}
@@ -224,6 +227,16 @@ export default function Contact() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} noValidate className="space-y-4">
+                <input
+                  type="text"
+                  name="botcheck"
+                  value={botcheck}
+                  onChange={(e) => setBotcheck(e.target.value)}
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  className="hidden"
+                />
                 <div className="grid sm:grid-cols-2 gap-4">
                   <FormField
                     label="Name"
@@ -270,7 +283,7 @@ export default function Contact() {
                     style={{ borderColor: "#ef4444", color: "#ef4444", backgroundColor: "rgba(239,68,68,0.06)" }}
                   >
                     <AlertCircle size={14} />
-                    Something went wrong. Please try again or email me directly.
+                    Something went wrong. Please try again or email me directly at anandkaliranajat05@gmail.com.
                   </div>
                 )}
 

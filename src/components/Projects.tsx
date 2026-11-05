@@ -16,6 +16,7 @@ const projects = [
     tech: ["Next.js", "TypeScript", "Node.js", "Express.js", "PostgreSQL", "Prisma"],
     github: "https://github.com/AnandKalirana",
     demo: null,
+    image: null as string | null,
     screenshotBg: "#0F1923",
     accentColor: "#C9822B",
     tags: ["Multi-Tenant Isolation", "Payment Workflows", "JWT Auth", "WhatsApp API"],
@@ -29,6 +30,7 @@ const projects = [
     tech: ["React.js", "Node.js", "Express.js", "MySQL", "Google Books API"],
     github: "https://github.com/AnandKalirana",
     demo: null,
+    image: null as string | null,
     screenshotBg: "#0D1B2A",
     accentColor: "#C9822B",
     tags: ["Reading Status", "Google Books API", "CRUD Workflows", "Railway"],
@@ -56,61 +58,73 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
         className="relative w-full aspect-[16/9] overflow-hidden"
         style={{ backgroundColor: project.screenshotBg }}
       >
-        {/* Mockup grid overlay */}
-        <div
-          className="absolute inset-0 opacity-10"
-          style={{
-            backgroundImage: `linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)`,
-            backgroundSize: "30px 30px",
-          }}
-        />
-
-        {/* Browser chrome mockup */}
-        <div className="absolute inset-4 border border-white/10 rounded-sm overflow-hidden">
+        {project.image ? (
+          /* eslint-disable-next-line @next/next/no-img-element */
+          <img
+            src={project.image}
+            alt={`${project.name} preview`}
+            loading="lazy"
+            className="absolute inset-0 w-full h-full object-cover object-top"
+          />
+        ) : (
+          <>
+          {/* Mockup grid overlay */}
           <div
-            className="h-7 flex items-center gap-1.5 px-3 border-b border-white/10"
-            style={{ backgroundColor: "rgba(255,255,255,0.05)" }}
-          >
-            <div className="w-2 h-2 rounded-full bg-red-400/60" />
-            <div className="w-2 h-2 rounded-full bg-yellow-400/60" />
-            <div className="w-2 h-2 rounded-full bg-green-400/60" />
-            <div className="flex-1 mx-3 h-3 rounded-sm" style={{ backgroundColor: "rgba(255,255,255,0.05)" }} />
-          </div>
+            className="absolute inset-0 opacity-10"
+            style={{
+              backgroundImage: `linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)`,
+              backgroundSize: "30px 30px",
+            }}
+          />
+
+          {/* Browser chrome mockup */}
+          <div className="absolute inset-4 border border-white/10 rounded-sm overflow-hidden">
+            <div
+              className="h-7 flex items-center gap-1.5 px-3 border-b border-white/10"
+              style={{ backgroundColor: "rgba(255,255,255,0.05)" }}
+            >
+              <div className="w-2 h-2 rounded-full bg-red-400/60" />
+              <div className="w-2 h-2 rounded-full bg-yellow-400/60" />
+              <div className="w-2 h-2 rounded-full bg-green-400/60" />
+              <div className="flex-1 mx-3 h-3 rounded-sm" style={{ backgroundColor: "rgba(255,255,255,0.05)" }} />
+            </div>
           
-          {/* Mockup content */}
-          <div className="p-4 h-full" style={{ backgroundColor: "rgba(255,255,255,0.02)" }}>
-            {/* Sidebar + content layout */}
-            <div className="flex gap-3 h-full">
-              <div className="w-1/4 space-y-2">
-                {[1, 2, 3, 4, 5].map((i) => {
-                  const widths = ["80%", "65%", "75%", "55%", "70%"];
-                  return (
-                    <div
-                      key={i}
-                      className="h-2 rounded-sm"
-                      style={{
-                        backgroundColor:
-                          i === 1
-                            ? project.accentColor + "80"
-                            : "rgba(255,255,255,0.08)",
-                        width: widths[i - 1],
-                      }}
-                    />
-                  );
-                })}
-              </div>
-              <div className="flex-1 space-y-3">
-                <div className="grid grid-cols-3 gap-2">
-                  {[1,2,3].map(i => (
-                    <div key={i} className="h-10 border border-white/5 rounded-sm" style={{ backgroundColor: "rgba(255,255,255,0.03)" }} />
-                  ))}
+            {/* Mockup content */}
+            <div className="p-4 h-full" style={{ backgroundColor: "rgba(255,255,255,0.02)" }}>
+              {/* Sidebar + content layout */}
+              <div className="flex gap-3 h-full">
+                <div className="w-1/4 space-y-2">
+                  {[1, 2, 3, 4, 5].map((i) => {
+                    const widths = ["80%", "65%", "75%", "55%", "70%"];
+                    return (
+                      <div
+                        key={i}
+                        className="h-2 rounded-sm"
+                        style={{
+                          backgroundColor:
+                            i === 1
+                              ? project.accentColor + "80"
+                              : "rgba(255,255,255,0.08)",
+                          width: widths[i - 1],
+                        }}
+                      />
+                    );
+                  })}
                 </div>
-                <div className="h-2 w-3/4 rounded-sm" style={{ backgroundColor: "rgba(255,255,255,0.08)" }} />
-                <div className="h-2 w-1/2 rounded-sm" style={{ backgroundColor: "rgba(255,255,255,0.05)" }} />
+                <div className="flex-1 space-y-3">
+                  <div className="grid grid-cols-3 gap-2">
+                    {[1,2,3].map(i => (
+                      <div key={i} className="h-10 border border-white/5 rounded-sm" style={{ backgroundColor: "rgba(255,255,255,0.03)" }} />
+                    ))}
+                  </div>
+                  <div className="h-2 w-3/4 rounded-sm" style={{ backgroundColor: "rgba(255,255,255,0.08)" }} />
+                  <div className="h-2 w-1/2 rounded-sm" style={{ backgroundColor: "rgba(255,255,255,0.05)" }} />
+                </div>
               </div>
             </div>
           </div>
-        </div>
+          </>
+        )}
 
         {/* Category label overlay */}
         <div className="absolute top-4 left-4">
