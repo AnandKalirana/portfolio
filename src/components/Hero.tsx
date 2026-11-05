@@ -25,7 +25,7 @@ export default function Hero() {
     >
       {/* Background technical grid */}
       <div
-        className="absolute inset-0 opacity-30"
+        className="absolute inset-0 opacity-20"
         style={{
           backgroundImage: `linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)`,
           backgroundSize: "60px 60px",
@@ -39,7 +39,7 @@ export default function Hero() {
       />
 
       <div className="relative max-w-7xl mx-auto px-6 lg:px-10 w-full pt-28 pb-16">
-        <div className="grid lg:grid-cols-[1fr_420px] gap-16 items-center min-h-[calc(100vh-7rem)]">
+        <div className="grid lg:grid-cols-[1fr_440px] gap-14 lg:gap-16 items-center lg:min-h-[calc(100vh-7rem)]">
           {/* Left Content */}
           <div className="flex flex-col justify-center">
             {/* Editorial label */}
@@ -65,7 +65,7 @@ export default function Hero() {
               variants={fadeUp}
               initial="hidden"
               animate="visible"
-              className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.05] tracking-tight mb-6"
+              className="text-[2rem] sm:text-6xl lg:text-7xl font-bold leading-[1.08] tracking-[-0.025em] mb-8"
               style={{ color: "var(--text-primary)" }}
             >
               Building secure
@@ -90,9 +90,9 @@ export default function Hero() {
               className="text-base lg:text-lg leading-relaxed max-w-lg mb-10"
               style={{ color: "var(--text-secondary)" }}
             >
-              Engineering student passionate about IoT, full-stack development
-              and cybersecurity. I build solutions at the intersection of
-              hardware, software and security.
+              I build connected systems and full-stack applications, exploring
+              the intersection of intelligent hardware, software engineering and
+              cybersecurity.
             </motion.p>
 
             {/* CTAs */}
@@ -139,7 +139,7 @@ export default function Hero() {
               variants={fadeUp}
               initial="hidden"
               animate="visible"
-              className="flex items-center gap-3 mt-16"
+              className="hidden lg:flex items-center gap-3 mt-16"
             >
               <motion.div
                 animate={{ y: [0, 6, 0] }}
@@ -156,13 +156,13 @@ export default function Hero() {
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
-            className="relative hidden lg:flex flex-col items-center"
+            className="relative flex flex-col items-center w-full max-w-sm mx-auto lg:max-w-none"
           >
             {/* Portrait area */}
             <div className="relative w-full">
               {/* Main portrait frame */}
               <div
-                className="relative w-full aspect-[3/4] overflow-hidden"
+                className="relative w-full aspect-[4/5] lg:aspect-[3/4] overflow-hidden"
                 style={{
                   backgroundColor: "var(--elevated)",
                   border: "1px solid var(--border)",
@@ -173,7 +173,7 @@ export default function Hero() {
                   <img
                     src={imgSrc}
                     alt="Anand Kalirana"
-                    className="w-full h-full object-cover grayscale contrast-125 brightness-95"
+                    className="w-full h-full object-cover object-[42%_100%] origin-[42%_100%] scale-[1.12] grayscale contrast-125 brightness-95"
                     onError={() => setImgSrc(null)}
                   />
                 ) : (
@@ -215,7 +215,7 @@ export default function Hero() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.8, duration: 0.5 }}
-                className="absolute -right-6 top-1/3 border px-3 py-5"
+                className="absolute right-2 lg:-right-6 top-[38%] border px-3 py-5"
                 style={{
                   backgroundColor: "var(--accent)",
                   borderColor: "transparent",
@@ -230,7 +230,7 @@ export default function Hero() {
 
               {/* Decorative dot grid */}
               <div
-                className="absolute -bottom-4 -left-4 w-24 h-24 opacity-30"
+                className="hidden lg:block absolute -bottom-4 -left-4 w-24 h-24 opacity-30"
                 style={{
                   backgroundImage: `radial-gradient(circle, var(--text-secondary) 1px, transparent 1px)`,
                   backgroundSize: "8px 8px",
@@ -242,7 +242,7 @@ export default function Hero() {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 1, duration: 0.4 }}
-                className="absolute -left-8 top-1/4 border px-3 py-2"
+                className="absolute left-3 bottom-10 lg:bottom-auto lg:-left-6 lg:top-[60%] border px-3 py-2"
                 style={{
                   backgroundColor: "var(--elevated)",
                   borderColor: "var(--border)",
