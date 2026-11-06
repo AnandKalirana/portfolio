@@ -20,7 +20,17 @@ function ProjectFields({ p }: { p?: P }) {
         <Field label="GitHub URL" name="github_url" defaultValue={p?.github_url} />
         <Field label="Live demo URL" name="demo_url" defaultValue={p?.demo_url} />
       </div>
-      <Field label="Preview image" name="image_url" defaultValue={p?.image_url} hint="https:// URL or /projects/name.webp. Image uploads arrive with storage." />
+      <label className="block">
+        <span className="block text-xs font-semibold mb-1.5" style={{ color: "var(--text-secondary)" }}>
+          Preview image — upload (JPG, PNG or WebP, max 3.5 MB)
+        </span>
+        <input type="file" name="image_file" accept="image/jpeg,image/png,image/webp" className="text-sm" />
+      </label>
+      {p?.image_url && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={p.image_url} alt="" className="h-24 w-auto border" style={{ borderColor: "var(--border)" }} />
+      )}
+      <Field label="…or image link" name="image_url" defaultValue={p?.image_url} hint="Leave as is to keep the current image. An upload replaces it; clearing this removes the image." />
       <div className="grid sm:grid-cols-2 gap-4">
         <Field label="Image background" name="screenshot_bg" defaultValue={p?.screenshot_bg ?? "#0F1923"} />
         <Field label="Accent colour" name="accent_color" defaultValue={p?.accent_color ?? "#C9822B"} />

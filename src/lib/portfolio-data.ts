@@ -1,6 +1,7 @@
 
 import "server-only";
 import { sql } from "@/lib/db";
+import { publicUrlForKey } from "@/lib/storage";
 
 export type Project = {
     number: string;
@@ -103,4 +104,23 @@ export async function getSkillGroups(): Promise<SkillGroup[]> {
             .filter((skill) => skill.group_id === group.id)
             .map((skill) => skill.name),
     })) as SkillGroup[];
+}
+
+export type SiteFiles = { portraitSrc: string; resumeHref: string };
+
+/** Uploaded portrait/resume (from admin); falls back to the files shipped in /public. */
+export async function getSiteFiles(): Promise<SiteFiles> {
+    const fallback: SiteFiles = { portraitSrc: "/portrait.jpg", resumeHref: "/api/resume" };
+    try {
+        const rows = await sql`
+      SELECT asset_type, storage_key FROM site_assets
+      WHERE asset_type = 'portrait'
+      ORDER BY created_at DESC LIMIT 1
+    `;
+        const key = rows[0]?.storage_key as string | undefined;
+        const url = key ? publicUrlForKey(key) : null;
+        return { ...fallback, portraitSrc: url ?? fallback.portraitSrc };
+    } catch {
+        return fallback;
+    }
 }

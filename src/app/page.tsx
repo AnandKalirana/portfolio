@@ -11,21 +11,23 @@ import {
   getProjects,
   getExperiences,
   getSkillGroups,
+  getSiteFiles,
 } from "@/lib/portfolio-data";
 
 export const instant = false;
 
 export default async function Home() {
-  const [projects, experiences, skillGroups] = await Promise.all([
+  const [projects, experiences, skillGroups, files] = await Promise.all([
     getProjects(),
     getExperiences(),
     getSkillGroups(),
+    getSiteFiles(),
   ]);
 
   return (
     <main>
       <Navigation />
-      <Hero />
+      <Hero portraitSrc={files.portraitSrc} resumeHref={files.resumeHref} />
       <About />
       <Projects projects={projects} />
       <Experience experiences={experiences} />

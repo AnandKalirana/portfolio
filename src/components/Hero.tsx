@@ -59,8 +59,15 @@ function PortraitTilt({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function Hero() {
-  const [imgSrc, setImgSrc] = useState<string | null>("/portrait.jpg");
+export default function Hero({
+  portraitSrc = "/portrait.jpg",
+  resumeHref = "/api/resume",
+}: {
+  portraitSrc?: string;
+  resumeHref?: string;
+}) {
+  const [failedSrc, setFailedSrc] = useState<string | null>(null);
+  const imgSrc = failedSrc === portraitSrc ? null : portraitSrc;
 
   return (
     <section
@@ -161,7 +168,7 @@ export default function Hero() {
                 </span>
               </a>
               <a
-                href="/resume.pdf"
+                href={resumeHref}
                 download
                 className="btn-apple btn-apple-secondary px-6 py-3 text-sm group"
               >
@@ -212,7 +219,7 @@ export default function Hero() {
                     src={imgSrc}
                     alt="Anand Kalirana"
                     className="w-full h-full object-cover object-[42%_100%] origin-[42%_100%] scale-[1.12] grayscale contrast-125 brightness-95"
-                    onError={() => setImgSrc(null)}
+                    onError={() => setFailedSrc(portraitSrc)}
                   />
                 ) : (
                   <>
