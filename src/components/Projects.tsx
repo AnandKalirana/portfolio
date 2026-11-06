@@ -47,7 +47,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           <img
             src={project.image}
             alt={`${project.name} preview`}
-            loading="lazy"
+            decoding="async"
             className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover:scale-[1.03]"
           />
         ) : (
