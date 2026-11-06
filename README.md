@@ -44,3 +44,7 @@ Environment variables (see `.env.example`): `DATABASE_URL`, `SESSION_SECRET`, `A
 1. `node scripts/hash-password.mjs "your-long-password"` and copy the printed hash.
 2. Set the variables in `.env.local` (use the escaped hash there) and in Vercel (use the plain hash).
 3. Open `/admin/login`. Five wrong attempts per IP lock sign-in for 15 minutes.
+
+### File uploads (portrait, resume, project images)
+
+Files live in a public Neon Object Storage bucket (`portfolio-public`) and are managed at `/admin/files` and in the project forms. Set `STORAGE_ENDPOINT`, `STORAGE_REGION`, `STORAGE_BUCKET`, `STORAGE_ACCESS_KEY_ID` and `STORAGE_SECRET_ACCESS_KEY` (see `.env.example`). Uploads are limited to 3.5 MB, and the file type is checked from the file contents. The hero's resume button points at `/api/resume`, which serves the uploaded PDF as a download.

@@ -7,6 +7,7 @@ const links = [
   { href: "/admin/projects", label: "Projects" },
   { href: "/admin/experience", label: "Experience" },
   { href: "/admin/skills", label: "Skills" },
+  { href: "/admin/files", label: "Files" },
 ];
 
 export default async function ProtectedLayout({ children }: { children: React.ReactNode }) {

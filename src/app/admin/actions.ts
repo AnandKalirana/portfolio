@@ -6,6 +6,8 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { sql } from "@/lib/db";
 import { endSession, requireAdmin, startSession } from "@/lib/auth";
+import { ValidationError } from "@/lib/validation";
+import { removeStoredAsset, storeUpload } from "@/lib/uploads";
 
 export type FormState = { error?: string; ok?: string };
 
@@ -53,7 +55,6 @@ export async function logout() {
 
 /* ---------- helpers ---------- */
 
-class ValidationError extends Error {}
 
 const str = (f: FormData, k: string, max: number) =>
   String(f.get(k) ?? "").trim().slice(0, max);
@@ -133,12 +134,20 @@ export async function saveProject(_p: FormState, f: FormData): Promise<FormState
       accent: color(f, "accent_color", "#C9822B"),
       published: f.get("published") === "on",
     };
+    const file = f.get("image_file");
+    let uploaded: string | null = null;
+    if (file instanceof File && file.size > 0) {
+      uploaded = (await storeUpload(file, { kind: "image", assetType: "project_image", folder: "projects" })).url;
+      data.image = uploaded;
+    }
     if (id) {
       if (!isUuid(id)) throw new ValidationError("Invalid project.");
+      const [old] = await sql`SELECT image_url FROM projects WHERE id=${id}`;
       await sql`UPDATE projects SET name=${name}, category=${data.category}, description=${data.description},
         technologies=${data.tech}, tags=${data.tags}, github_url=${data.github}, demo_url=${data.demo},
         image_url=${data.image}, screenshot_bg=${data.bg}, accent_color=${data.accent},
         published=${data.published}, updated_at=NOW() WHERE id=${id}`;
+      if (old?.image_url && old.image_url !== data.image) await removeStoredAsset(old.image_url);
       return { ok: "Saved." };
     }
     let slug = slugify(name);
@@ -228,7 +237,12 @@ export async function deleteRow(f: FormData) {
   await requireAdmin();
   const id = str(f, "id", 40);
   if (!isUuid(id)) return;
-  await sql.query(`DELETE FROM ${tableOf(f)} WHERE id = $1`, [id]);
+  const table = tableOf(f);
+  if (table === "projects") {
+    const [row] = await sql`SELECT image_url FROM projects WHERE id=${id}`;
+    if (row?.image_url) await removeStoredAsset(row.image_url);
+  }
+  await sql.query(`DELETE FROM ${table} WHERE id = $1`, [id]);
   revalidatePath("/");
   revalidatePath("/admin", "layout");
 }
