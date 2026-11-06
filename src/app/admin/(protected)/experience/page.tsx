@@ -3,6 +3,9 @@ import { saveExperience } from "../../actions";
 import { AdminForm } from "@/components/admin/AdminForm";
 import { Field, Item, PublishedField, RowActions } from "@/components/admin/fields";
 
+// Admin pages read the session and database on every request; skip instant-navigation validation.
+export const instant = false;
+
 type E = Awaited<ReturnType<typeof adminExperiences>>[number];
 
 function ExperienceFields({ e }: { e?: E }) {

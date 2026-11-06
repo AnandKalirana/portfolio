@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { adminCounts } from "@/lib/admin-data";
 
+// Admin pages read the session and database on every request; skip instant-navigation validation.
+export const instant = false;
+
 export default async function Overview() {
   const c = await adminCounts();
   const cards = [
