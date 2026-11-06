@@ -44,3 +44,4 @@ next-env.d.ts
 public/resume.pdf
 public/portrait.jpg
 public/portrait-original.jpg
+!.env.example

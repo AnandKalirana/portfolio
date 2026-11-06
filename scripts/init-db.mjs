@@ -87,6 +87,14 @@ async function initializeDatabase() {
       )
     `;
 
+        await sql`
+      CREATE TABLE IF NOT EXISTS admin_login_attempts (
+        id BIGSERIAL PRIMARY KEY,
+        ip TEXT NOT NULL,
+        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      )
+    `;
+
         console.log("Database tables created successfully!");
         console.log("1. projects");
         console.log("2. experiences");
