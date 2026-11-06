@@ -131,7 +131,7 @@ export default function Navigation() {
               AK
             </div>
             <span
-              className="text-sm font-medium tracking-tight hidden sm:block"
+              className="text-sm font-medium tracking-tight whitespace-nowrap"
               style={{ color: "var(--text-primary)" }}
             >
               Anand Kalirana
