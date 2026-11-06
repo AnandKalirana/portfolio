@@ -2,6 +2,9 @@ import Link from "next/link";
 import { requireAdmin } from "@/lib/auth";
 import { logout } from "../actions";
 
+// Admin pages read the session and database on every request; skip instant-navigation validation.
+export const instant = false;
+
 const links = [
   { href: "/admin", label: "Overview" },
   { href: "/admin/projects", label: "Projects" },

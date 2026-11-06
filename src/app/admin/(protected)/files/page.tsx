@@ -3,6 +3,9 @@ import { publicUrlForKey, storageConfigured } from "@/lib/storage";
 import { removeSiteFile, uploadSiteFile } from "../../file-actions";
 import { AdminForm, ConfirmButton } from "@/components/admin/AdminForm";
 
+// Admin pages read the session and database on every request; skip instant-navigation validation.
+export const instant = false;
+
 async function latest(type: string) {
   const rows = await sql`SELECT storage_key, original_name, created_at FROM site_assets
     WHERE asset_type = ${type} ORDER BY created_at DESC LIMIT 1`;

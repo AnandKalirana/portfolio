@@ -3,6 +3,9 @@ import { saveSkillGroup } from "../../actions";
 import { AdminForm } from "@/components/admin/AdminForm";
 import { Field, Item, PublishedField, RowActions } from "@/components/admin/fields";
 
+// Admin pages read the session and database on every request; skip instant-navigation validation.
+export const instant = false;
+
 type G = Awaited<ReturnType<typeof adminSkillGroups>>[number];
 
 function GroupFields({ g }: { g?: G }) {

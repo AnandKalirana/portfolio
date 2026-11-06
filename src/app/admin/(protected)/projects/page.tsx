@@ -3,6 +3,9 @@ import { saveProject } from "../../actions";
 import { AdminForm } from "@/components/admin/AdminForm";
 import { Field, Item, PublishedField, RowActions } from "@/components/admin/fields";
 
+// Admin pages read the session and database on every request; skip instant-navigation validation.
+export const instant = false;
+
 type P = Awaited<ReturnType<typeof adminProjects>>[number];
 
 function ProjectFields({ p }: { p?: P }) {
