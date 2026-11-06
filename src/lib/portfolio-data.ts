@@ -37,7 +37,7 @@ export type SkillGroup = {
 export async function getProjects(): Promise<Project[]> {
     const projects = await sql`
     SELECT
-      number,
+      LPAD(ROW_NUMBER() OVER (ORDER BY sort_order, created_at)::text, 2, '0') AS number,
       category,
       name,
       description,
@@ -50,7 +50,7 @@ export async function getProjects(): Promise<Project[]> {
       tags
     FROM projects
     WHERE published = true
-    ORDER BY sort_order ASC
+    ORDER BY sort_order ASC, created_at ASC
   `;
 
     return projects as Project[];
@@ -59,17 +59,17 @@ export async function getProjects(): Promise<Project[]> {
 export async function getExperiences(): Promise<ExperienceItem[]> {
     const experiences = await sql`
     SELECT
-      number,
+      LPAD(ROW_NUMBER() OVER (ORDER BY sort_order, created_at)::text, 2, '0') AS number,
       company AS org,
       role,
       period,
       status AS type,
       category,
       description,
-      side
+      CASE WHEN ROW_NUMBER() OVER (ORDER BY sort_order, created_at) % 2 = 1 THEN 'left' ELSE 'right' END AS side
     FROM experiences
     WHERE published = true
-    ORDER BY sort_order ASC
+    ORDER BY sort_order ASC, created_at ASC
   `;
 
     return experiences as ExperienceItem[];
@@ -79,12 +79,12 @@ export async function getSkillGroups(): Promise<SkillGroup[]> {
     const groups = await sql`
     SELECT
       id,
-      number,
+      LPAD(ROW_NUMBER() OVER (ORDER BY sort_order, created_at)::text, 2, '0') AS number,
       title,
       icon_path AS "iconPath"
     FROM skill_groups
     WHERE published = true
-    ORDER BY sort_order ASC
+    ORDER BY sort_order ASC, created_at ASC
   `;
 
     const skills = await sql`

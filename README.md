@@ -34,3 +34,13 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Admin dashboard
+
+Content (projects, experience, skills) is stored in Neon and edited at `/admin`.
+
+Environment variables (see `.env.example`): `DATABASE_URL`, `SESSION_SECRET`, `ADMIN_PASSWORD_HASH`, `NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY`.
+
+1. `node scripts/hash-password.mjs "your-long-password"` and copy the printed hash.
+2. Set the variables in `.env.local` (use the escaped hash there) and in Vercel (use the plain hash).
+3. Open `/admin/login`. Five wrong attempts per IP lock sign-in for 15 minutes.
