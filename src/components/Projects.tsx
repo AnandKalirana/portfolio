@@ -1,366 +1,144 @@
-
-"use client";
-
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
-import { useRef } from "react";
 import { ArrowRight } from "lucide-react";
+import { Button } from "@astryxdesign/core/Button";
+import { Heading } from "@astryxdesign/core/Heading";
+import { Token } from "@astryxdesign/core/Token";
 import { GithubIcon, ExternalLinkIcon } from "@/components/Icons";
+import { Reveal } from "@/components/console/Reveal";
+import { SectionHead } from "@/components/console/SectionHead";
+import type { Project } from "@/lib/portfolio-data";
 
-type Project = {
-  number: string;
-  category: string;
-  name: string;
-  description: string;
-  tech: string[];
-  github: string;
-  demo: string | null;
-  image: string | null;
-  screenshotBg: string;
-  accentColor: string;
-  tags: string[];
-};
+function slug(name: string) {
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
 
-function ProjectCard({ project, index }: { project: Project; index: number }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-60px" });
-
+/** A project shown as a deployed unit: a browser-framed screen next to its spec sheet. */
+function Unit({ project, flip }: { project: Project; flip: boolean }) {
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 40 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay: index * 0.15, ease: "easeOut" }}
-      className="card-lift group relative border overflow-hidden"
-      style={{
-        borderColor: "var(--border)",
-        backgroundColor: "var(--elevated)",
-      }}
-    >
-      {/* Project screenshot / visual */}
-      <div
-        className="relative w-full aspect-[16/9] overflow-hidden"
-        style={{ backgroundColor: project.screenshotBg }}
-      >
-        {project.image ? (
-          /* eslint-disable-next-line @next/next/no-img-element */
-          <img
-            src={project.image}
-            alt={`${project.name} preview`}
-            decoding="async"
-            className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover:scale-[1.03]"
-          />
-        ) : (
-          <>
-            {/* Mockup grid overlay */}
-            <div
-              className="absolute inset-0 opacity-10"
-              style={{
-                backgroundImage: `linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)`,
-                backgroundSize: "30px 30px",
-              }}
-            />
-
-            {/* Browser chrome mockup */}
-            <div className="absolute inset-4 border border-white/10 rounded-sm overflow-hidden">
-              <div
-                className="h-7 flex items-center gap-1.5 px-3 border-b border-white/10"
-                style={{ backgroundColor: "rgba(255,255,255,0.05)" }}
-              >
-                <div className="w-2 h-2 rounded-full bg-red-400/60" />
-                <div className="w-2 h-2 rounded-full bg-yellow-400/60" />
-                <div className="w-2 h-2 rounded-full bg-green-400/60" />
-                <div
-                  className="flex-1 mx-3 h-3 rounded-sm"
-                  style={{ backgroundColor: "rgba(255,255,255,0.05)" }}
-                />
-              </div>
-
-              {/* Mockup content */}
-              <div
-                className="p-4 h-full"
-                style={{ backgroundColor: "rgba(255,255,255,0.02)" }}
-              >
-                {/* Sidebar + content layout */}
-                <div className="flex gap-3 h-full">
-                  <div className="w-1/4 space-y-2">
-                    {[1, 2, 3, 4, 5].map((i) => {
-                      const widths = ["80%", "65%", "75%", "55%", "70%"];
-                      return (
-                        <div
-                          key={i}
-                          className="h-2 rounded-sm"
-                          style={{
-                            backgroundColor:
-                              i === 1
-                                ? project.accentColor + "80"
-                                : "rgba(255,255,255,0.08)",
-                            width: widths[i - 1],
-                          }}
-                        />
-                      );
-                    })}
-                  </div>
-
-                  <div className="flex-1 space-y-3">
-                    <div className="grid grid-cols-3 gap-2">
-                      {[1, 2, 3].map((i) => (
-                        <div
-                          key={i}
-                          className="h-10 border border-white/5 rounded-sm"
-                          style={{ backgroundColor: "rgba(255,255,255,0.03)" }}
-                        />
-                      ))}
-                    </div>
-                    <div
-                      className="h-2 w-3/4 rounded-sm"
-                      style={{ backgroundColor: "rgba(255,255,255,0.08)" }}
-                    />
-                    <div
-                      className="h-2 w-1/2 rounded-sm"
-                      style={{ backgroundColor: "rgba(255,255,255,0.05)" }}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </>
-        )}
-
-        {/* Category label overlay */}
-        <div className={`absolute top-4 left-4 ${project.image ? "hidden" : ""}`}>
-          <span
-            className="text-xs font-bold tracking-widest uppercase px-2 py-1"
-            style={{ backgroundColor: project.accentColor, color: "white" }}
-          >
-            {project.number}
-          </span>
-        </div>
-
-        {/* Hover overlay */}
-        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
-          <a
-            href={project.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-apple px-4 py-2 text-xs bg-white text-black hover:bg-gray-100"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <GithubIcon size={13} />
-            GitHub
-          </a>
-
-          {project.demo && (
-            <a
-              href={project.demo}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-apple px-4 py-2 text-xs border border-white text-white hover:bg-white/10"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <ExternalLinkIcon size={13} />
-              Live Demo
-            </a>
-          )}
-        </div>
-      </div>
-
-      {/* Card content */}
-      <div className="p-6">
-        <div className="flex items-start justify-between gap-4 mb-3">
-          <div>
-            <div
-              className="editorial-label mb-1"
-              style={{ color: "var(--text-secondary)" }}
-            >
-              {project.category}
-            </div>
-
-            <h3
-              className="text-xl font-bold tracking-tight"
-              style={{ color: "var(--text-primary)" }}
-            >
-              {project.name}
-            </h3>
-          </div>
-
-          <span
-            className="text-2xl font-black opacity-10 leading-none flex-shrink-0"
-            style={{ color: "var(--text-primary)" }}
-          >
-            {project.number}
-          </span>
-        </div>
-
-        <p
-          className="text-sm leading-relaxed mb-5"
-          style={{ color: "var(--text-secondary)" }}
+    <article className="group grid lg:grid-cols-[1.2fr_1fr] gap-8 lg:gap-14 items-center py-12 lg:py-16 border-t hair first:border-t-0">
+      {/* screen */}
+      <Reveal x={flip ? 24 : -24} y={0} className={flip ? "lg:order-2" : ""}>
+        <div
+          className="brackets scanline relative overflow-hidden border"
+          style={{ background: project.screenshotBg, borderColor: "var(--color-border-emphasized)" }}
         >
+          <div
+            className="relative z-[4] flex items-center gap-1.5 px-3 h-9 border-b"
+            style={{ background: "rgba(0,0,0,0.38)", borderColor: "rgba(255,255,255,0.08)" }}
+          >
+            <span className="w-2 h-2 rounded-full bg-red-400/70" />
+            <span className="w-2 h-2 rounded-full bg-yellow-400/70" />
+            <span className="w-2 h-2 rounded-full bg-green-400/70" />
+            <span className="mono ml-3 text-[10px] tracking-wider text-white/55 truncate">
+              unit-{project.number} / {slug(project.name)}
+            </span>
+          </div>
+          <div className="relative aspect-[16/10]">
+            {project.image ? (
+              /* eslint-disable-next-line @next/next/no-img-element */
+              <img
+                src={project.image}
+                alt={`${project.name} preview`}
+                decoding="async"
+                className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.03]"
+              />
+            ) : (
+              <div className="absolute inset-0 grid place-items-center">
+                <span className="mono text-xs tracking-[0.2em] text-white/40">NO PREVIEW</span>
+              </div>
+            )}
+          </div>
+        </div>
+      </Reveal>
+
+      {/* spec sheet */}
+      <Reveal delay={0.1} x={flip ? -16 : 16} y={0} className={flip ? "lg:order-1" : ""}>
+        <div className="flex items-center gap-3 mb-4">
+          <span className="tag !text-[var(--color-text-accent)]">Unit {project.number}</span>
+          <span className="h-px w-8" style={{ background: "var(--color-border-emphasized)" }} />
+          <span className="tag">{project.category}</span>
+        </div>
+
+        <Heading level={3} className="text-2xl sm:text-3xl font-bold tracking-tight mb-4">
+          {project.name}
+        </Heading>
+
+        <p className="text-sm leading-relaxed mb-6" style={{ color: "var(--color-text-secondary)" }}>
           {project.description}
         </p>
 
-        {/* Tags */}
         <div className="flex flex-wrap gap-1.5 mb-5">
           {project.tags.map((tag) => (
-            <span
-              key={tag}
-              className="text-xs px-2 py-0.5 border"
-              style={{
-                borderColor: "rgba(201,130,43,0.3)",
-                color: "var(--accent)",
-                backgroundColor: "rgba(201,130,43,0.06)",
-              }}
-            >
-              {tag}
-            </span>
+            <Token key={tag} label={tag} size="sm" color="orange" />
           ))}
         </div>
 
-        {/* Tech stack */}
-        <div className="flex flex-wrap gap-1.5 mb-5">
-          {project.tech.map((t) => (
-            <span
-              key={t}
-              className="text-xs px-2 py-0.5 border"
-              style={{
-                borderColor: "var(--border)",
-                color: "var(--text-secondary)",
-              }}
-            >
-              {t}
-            </span>
-          ))}
-        </div>
+        <dl className="mb-7">
+          <dt className="tag mb-2">Stack</dt>
+          <dd className="flex flex-wrap gap-1.5">
+            {project.tech.map((t) => (
+              <span key={t} className="mono text-[11px] px-2 py-0.5 border hair" style={{ color: "var(--color-text-secondary)" }}>
+                {t}
+              </span>
+            ))}
+          </dd>
+        </dl>
 
-        {/* Links */}
-        <div
-          className="flex items-center gap-5 pt-4 border-t"
-          style={{ borderColor: "var(--border)" }}
-        >
-          <a
+        <div className="flex flex-wrap gap-3">
+          <Button
+            label="View on GitHub"
+            variant="secondary"
             href={project.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 text-xs font-semibold transition-all duration-200 group/link"
-            style={{ color: "var(--text-primary)" }}
-          >
-            <GithubIcon size={13} />
-            <span>View on GitHub</span>
-            <ArrowRight
-              size={12}
-              className="transition-transform duration-200 group-hover/link:translate-x-1"
-            />
-          </a>
-
+            icon={<GithubIcon size={14} />}
+          />
           {project.demo && (
-            <a
+            <Button
+              label="Live Demo"
+              variant="ghost"
               href={project.demo}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 text-xs font-semibold transition-all duration-200 group/link"
-              style={{ color: "var(--text-secondary)" }}
-            >
-              <ExternalLinkIcon size={13} />
-              <span>Live Demo</span>
-              <ArrowRight
-                size={12}
-                className="transition-transform duration-200 group-hover/link:translate-x-1"
-              />
-            </a>
+              icon={<ExternalLinkIcon size={14} />}
+            />
           )}
         </div>
-      </div>
-    </motion.div>
+      </Reveal>
+    </article>
   );
 }
 
 export default function Projects({ projects }: { projects: Project[] }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
-
   return (
-    <section
-      id="projects"
-      className="relative py-28 lg:py-36"
-      style={{ backgroundColor: "var(--bg-primary)" }}
-    >
-      {/* Top border */}
-      <div
-        className="absolute top-0 left-0 right-0 h-px"
-        style={{ backgroundColor: "var(--border)" }}
-      />
-
-      <div className="max-w-7xl mx-auto px-6 lg:px-10">
-        {/* Section header */}
-        <div
-          ref={ref}
-          className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-16"
+    <section id="projects" className="relative lg:pl-[76px] border-t hair">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 py-24 lg:py-32">
+        <SectionHead
+          index="03"
+          label="Featured Projects"
+          aside={
+            <div className="flex flex-col items-start lg:items-end gap-4">
+              <p className="text-sm leading-relaxed max-w-sm lg:text-right" style={{ color: "var(--color-text-secondary)" }}>
+                A selection of projects where I applied engineering thinking to solve practical problems.
+              </p>
+              <Button
+                label="View All Projects"
+                variant="secondary"
+                size="sm"
+                href="https://github.com/anandkalirana"
+                target="_blank"
+                rel="noopener noreferrer"
+                icon={<ArrowRight size={14} />}
+              />
+            </div>
+          }
         >
-          <div>
-            <motion.div
-              initial={{ opacity: 0, x: -10 }}
-              animate={isInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.5 }}
-              className="flex items-center gap-3 mb-6"
-            >
-              <span className="section-number">03</span>
-              <div
-                className="w-8 h-px"
-                style={{ backgroundColor: "var(--border)" }}
-              />
-              <span className="editorial-label">Featured Projects</span>
-            </motion.div>
+          Selected work.{" "}
+          <span className="serif-accent">Real-world thinking.</span>
+        </SectionHead>
 
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-4xl lg:text-5xl font-bold tracking-tight leading-tight"
-              style={{ color: "var(--text-primary)" }}
-            >
-              Selected work.{" "}
-              <span
-                className="font-serif-italic font-normal"
-                style={{ color: "var(--accent)" }}
-              >
-                Real-world thinking.
-              </span>
-            </motion.h2>
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="flex flex-col items-start lg:items-end gap-4"
-          >
-            <p
-              className="text-sm leading-relaxed max-w-sm lg:text-right"
-              style={{ color: "var(--text-secondary)" }}
-            >
-              A selection of projects where I applied engineering thinking to
-              solve practical problems.
-            </p>
-
-            <a
-              href="https://github.com/anandkalirana"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-apple btn-apple-secondary px-4 py-2 text-xs group"
-            >
-              View All Projects
-              <ArrowRight
-                size={13}
-                className="transition-transform duration-200 group-hover:translate-x-1"
-              />
-            </a>
-          </motion.div>
-        </div>
-
-        {/* Project grid */}
-        <div className="grid md:grid-cols-2 gap-6">
-          {projects.map((project, i) => (
-            <ProjectCard key={project.name} project={project} index={i} />
+        <div>
+          {projects.map((p, i) => (
+            <Unit key={p.name} project={p} flip={i % 2 === 1} />
           ))}
         </div>
       </div>

@@ -1,241 +1,70 @@
-
-"use client";
-
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
-import { useRef } from "react";
+import { Heading } from "@astryxdesign/core/Heading";
+import { Token } from "@astryxdesign/core/Token";
+import { Reveal } from "@/components/console/Reveal";
+import { SectionHead } from "@/components/console/SectionHead";
 import type { ExperienceItem } from "@/lib/portfolio-data";
 
-function ExperienceCard({ exp }: { exp: ExperienceItem }) {
-  return (
-    <div
-      className="border p-5"
-      style={{
-        backgroundColor: "var(--elevated)",
-        borderColor: "var(--border)",
-      }}
-    >
-      <div className="flex items-start justify-between gap-3 mb-3">
-        <div>
-          <div className="text-xs font-semibold mb-0.5" style={{ color: "var(--accent)" }}>
-            {exp.period}
-          </div>
-          <h3
-            className="text-base font-bold leading-tight"
-            style={{ color: "var(--text-primary)" }}
-          >
-            {exp.role}
-          </h3>
-          <div className="text-sm mt-0.5" style={{ color: "var(--text-secondary)" }}>
-            {exp.org}
-          </div>
-        </div>
-      </div>
-
-      <p className="text-sm leading-relaxed mb-4" style={{ color: "var(--text-secondary)" }}>
-        {exp.description}
-      </p>
-
-      <div className="flex items-center gap-2">
-        <span
-          className="text-xs px-2 py-0.5 border font-medium"
-          style={{
-            borderColor: "rgba(201,130,43,0.3)",
-            color: "var(--accent)",
-            backgroundColor: "rgba(201,130,43,0.06)",
-          }}
-        >
-          {exp.category}
-        </span>
-        <span
-          className="text-xs px-2 py-0.5 border"
-          style={{ borderColor: "var(--border)", color: "var(--text-secondary)" }}
-        >
-          {exp.type}
-        </span>
-      </div>
-    </div>
-  );
-}
-
-function DesktopEntry({ exp, index }: { exp: ExperienceItem; index: number }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-40px" });
-  const isLeft = exp.side === "left";
-
-  return (
-    <div ref={ref} className="relative grid grid-cols-2 gap-8">
-      {/* Timeline node */}
-      <div className="absolute left-1/2 top-6 -translate-x-1/2 z-10">
-        <motion.div
-          initial={{ scale: 0 }}
-          animate={isInView ? { scale: 1 } : {}}
-          transition={{ duration: 0.4, delay: 0.2 + index * 0.1 }}
-          className="w-10 h-10 flex items-center justify-center border-2 text-xs font-bold"
-          style={{
-            backgroundColor: "var(--bg-secondary)",
-            borderColor: "var(--accent)",
-            color: "var(--accent)",
-            fontFamily: "monospace",
-          }}
-        >
-          {exp.number}
-        </motion.div>
-      </div>
-
-      {/* Left slot */}
-      <div className="flex justify-end pr-12">
-        {isLeft && (
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.1 + index * 0.1 }}
-            className="max-w-sm w-full"
-          >
-            <ExperienceCard exp={exp} />
-          </motion.div>
-        )}
-      </div>
-
-      {/* Right slot */}
-      <div className="pl-12">
-        {!isLeft && (
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.1 + index * 0.1 }}
-            className="max-w-sm w-full"
-          >
-            <ExperienceCard exp={exp} />
-          </motion.div>
-        )}
-      </div>
-    </div>
-  );
-}
-
-function MobileEntry({ exp, index }: { exp: ExperienceItem; index: number }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-40px" });
-
-  return (
-    <div ref={ref} className="relative pl-16">
-      <div className="absolute left-0 top-4">
-        <motion.div
-          initial={{ scale: 0 }}
-          animate={isInView ? { scale: 1 } : {}}
-          transition={{ duration: 0.3, delay: 0.1 }}
-          className="w-10 h-10 flex items-center justify-center border-2 text-xs font-bold"
-          style={{
-            backgroundColor: "var(--bg-secondary)",
-            borderColor: "var(--accent)",
-            color: "var(--accent)",
-            fontFamily: "monospace",
-          }}
-        >
-          {exp.number}
-        </motion.div>
-      </div>
-      <motion.div
-        initial={{ opacity: 0, y: 15 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.5, delay: 0.15 + index * 0.08 }}
-      >
-        <ExperienceCard exp={exp} />
-      </motion.div>
-    </div>
-  );
-}
-
+/** Experience as an event log: period + node on a rail, entry card on the right. */
 export default function Experience({ experiences }: { experiences: ExperienceItem[] }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
-
   return (
-    <section
-      id="experience"
-      className="relative py-28 lg:py-36 border-t border-b"
-      style={{
-        backgroundColor: "var(--bg-secondary)",
-        borderColor: "var(--border)",
-      }}
-    >
-      <div className="max-w-7xl mx-auto px-6 lg:px-10">
-        {/* Section header */}
-        <div ref={ref} className="grid lg:grid-cols-2 gap-12 mb-20">
-          <div>
-            <motion.div
-              initial={{ opacity: 0, x: -10 }}
-              animate={isInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.5 }}
-              className="flex items-center gap-3 mb-6"
-            >
-              <span className="section-number">04</span>
-              <div className="w-8 h-px" style={{ backgroundColor: "var(--border)" }} />
-              <span className="editorial-label">Experience Timeline</span>
-            </motion.div>
-
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-4xl lg:text-5xl font-bold leading-tight tracking-tight"
-              style={{ color: "var(--text-primary)" }}
-            >
-              Learning.{" "}
-              <br />
-              Building.{" "}
-              <span
-                className="font-serif-italic font-normal"
-                style={{ color: "var(--accent)" }}
-              >
-                Growing.
-              </span>
-            </motion.h2>
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="flex items-end pb-2"
-          >
-            <p
-              className="text-sm leading-relaxed max-w-sm"
-              style={{ color: "var(--text-secondary)" }}
-            >
-              Hands-on experience through internships, research and real-world
-              problem solving. Each experience has shaped how I approach
-              engineering challenges.
+    <section id="experience" className="relative lg:pl-[76px] border-t hair">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 py-24 lg:py-32">
+        <SectionHead
+          index="04"
+          label="Experience"
+          aside={
+            <p className="text-sm leading-relaxed max-w-sm" style={{ color: "var(--color-text-secondary)" }}>
+              Hands-on experience through internships, research and real-world problem solving. Each experience has shaped how I approach engineering challenges.
             </p>
-          </motion.div>
-        </div>
+          }
+        >
+          Learning. Building. <span className="serif-accent">Growing.</span>
+        </SectionHead>
 
-        {/* Desktop timeline */}
-        <div className="hidden lg:block relative">
-          <div
-            className="absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2"
-            style={{ backgroundColor: "var(--border)" }}
-          />
-          <div className="space-y-16">
-            {experiences.map((exp, i) => (
-              <DesktopEntry key={exp.number} exp={exp} index={i} />
-            ))}
-          </div>
-        </div>
-
-        {/* Mobile timeline */}
-        <div className="lg:hidden relative">
-          <div
-            className="absolute left-5 top-0 bottom-0 w-px"
-            style={{ backgroundColor: "var(--border)" }}
-          />
-          <div className="space-y-10">
-            {experiences.map((exp, i) => (
-              <MobileEntry key={exp.number} exp={exp} index={i} />
-            ))}
-          </div>
-        </div>
+        <ol className="relative">
+          <span aria-hidden className="rail-line absolute left-[19px] lg:left-[calc(10rem+19px)] top-2 bottom-2 w-px" />
+          {experiences.map((exp, i) => (
+            <li key={`${exp.org}-${exp.number}`} className="relative grid lg:grid-cols-[10rem_1fr] gap-x-8 pb-10 last:pb-0">
+              <Reveal delay={i * 0.05} x={-10} y={0} className="hidden lg:block pt-3 pr-4 text-right">
+                <div className="mono text-xs tracking-wider" style={{ color: "var(--color-text-accent)" }}>
+                  {exp.period}
+                </div>
+              </Reveal>
+              <div className="relative pl-14 lg:pl-14">
+                <span
+                  className="mono absolute left-0 top-1 w-10 h-10 grid place-items-center text-xs font-bold border-2"
+                  style={{
+                    background: "var(--color-background-body)",
+                    borderColor: "var(--color-accent)",
+                    color: "var(--color-text-accent)",
+                  }}
+                >
+                  {exp.number}
+                </span>
+                <Reveal delay={0.08} y={16}>
+                  <div className="border p-5 lg:p-6" style={{ background: "var(--color-background-card)", borderColor: "var(--color-border)" }}>
+                    <div className="mono text-xs tracking-wider mb-2 lg:hidden" style={{ color: "var(--color-text-accent)" }}>
+                      {exp.period}
+                    </div>
+                    <Heading level={3} className="text-lg font-bold leading-tight tracking-tight">
+                      {exp.role}
+                    </Heading>
+                    <div className="text-sm mt-1" style={{ color: "var(--color-text-secondary)" }}>
+                      {exp.org}
+                    </div>
+                    <p className="text-sm leading-relaxed mt-4 mb-5" style={{ color: "var(--color-text-secondary)" }}>
+                      {exp.description}
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      <Token label={exp.category} size="sm" color="orange" />
+                      <Token label={exp.type} size="sm" />
+                    </div>
+                  </div>
+                </Reveal>
+              </div>
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   );

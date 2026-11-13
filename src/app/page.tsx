@@ -1,5 +1,5 @@
 
-import Navigation from "@/components/Navigation";
+import Chrome from "@/components/console/Chrome";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Projects from "@/components/Projects";
@@ -26,7 +26,7 @@ export default async function Home() {
 
   return (
     <main>
-      <Navigation />
+      <Chrome />
       <Hero portraitSrc={files.portraitSrc} resumeHref={files.resumeHref} />
       <About />
       <Projects projects={projects} />
